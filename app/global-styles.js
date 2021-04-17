@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
   * {
     margin:0;
     padding:0;
+    font-family: 'Oxygen', sans-serif;
   }
 
 
@@ -31,6 +32,12 @@ const GlobalStyle = createGlobalStyle`
     justify-content:flex-start;
     align-items:center;
   }
+
+  .pointer {
+    cursor:pointer;
+  }
+
+
 
 `;
 

@@ -7,13 +7,13 @@
 
 import React from 'react';
 import { Navbar } from './components/Navbar';
+import { ChannelBar } from './components/ChannelBar';
 
-export const HomePage = () => {
-  return (
-    <div>
-      <Navbar />
-    </div>
-  );
-};
+export const HomePage = () => (
+  <div>
+    <Navbar />
+    <ChannelBar />
+  </div>
+);
 
 export default HomePage;
