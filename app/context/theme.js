@@ -14,6 +14,7 @@ const theme = {
   gray_200: '#1d1c1d',
   gray_300: '#c8c8c887',
   green: '#007a5a',
+  sideThumbColor: '#c6bcc6',
 };
 
 export const ThemeProvider = ({ children }) => (

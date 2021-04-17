@@ -37,6 +37,14 @@ const GlobalStyle = createGlobalStyle`
     cursor:pointer;
   }
 
+  .bold {
+    font-weight:bold;
+  }
+
+  .bolder {
+    font-weight:bolder;
+  }
+
 
 
 `;

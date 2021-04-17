@@ -44,7 +44,8 @@ export const ModalWrapper = styled(Modal)`
 export const Label = styled.label`
   font-size: 15px;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  margin-right: 2px;
   color: ${({ theme }) => theme.black};
 `;
 
@@ -67,7 +68,11 @@ export const CreateButton = styled(Button)`
   font-weight: 800;
   font-size: 15px;
   border: none;
-  margin-right: 10px;
   padding: 10px 20px;
-  ${({ words }) => (words ? activeButton : disabledButton)}
+  margin-top: 15px;
+  ${({ words }) => (words ? activeButton : disabledButton)};
+  &:hover {
+    ${({ words }) => (words ? activeButton : disabledButton)};
+    opacity: 0.9;
+  }
 `;

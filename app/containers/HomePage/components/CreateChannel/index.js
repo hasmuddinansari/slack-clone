@@ -1,8 +1,9 @@
 import React from 'react';
 import { bool, func, object } from 'prop-types';
+import { size } from 'lodash';
 import { X as CloseButton } from 'react-feather';
 
-import { ModalBody, ModalFooter } from 'reactstrap';
+import { ModalBody, FormGroup } from 'reactstrap';
 import {
   ModalHeaderWrapper,
   CloseButtonWrapper,
@@ -13,7 +14,13 @@ import {
   CreateButton,
 } from './Styled';
 
-export const CreateChannel = ({ isOpen, toggleModal, form, handleChange }) => (
+export const CreateChannel = ({
+  isOpen,
+  toggleModal,
+  form,
+  handleChange,
+  handleSubmit,
+}) => (
   <ModalWrapper isOpen={isOpen} centered>
     <ModalHeaderWrapper toggle={toggleModal}>
       <div className="create-channel">Create Channel</div>
@@ -30,34 +37,47 @@ export const CreateChannel = ({ isOpen, toggleModal, form, handleChange }) => (
         Channels are where your team communicates. They’re best when organized
         around a topic — #marketing, for example.
       </HeaderText>
-      <Label htmlFor="name" className="pt-2">
-        Name
-      </Label>
-      <ChannelInput
-        placeholder="#channel name"
-        className="form-control"
-        id="name"
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-      />
-      <Label htmlFor="desc" className="pt-4">
-        Description (Optional)
-      </Label>
-      <ChannelInput
-        id="desc"
-        className="form-control"
-        name="desc"
-        value={form.desc}
-        onChange={handleChange}
-      />
-      <span className="text-muted">What’s this channel about?</span>
+      <form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label htmlFor="name" className="pt-2">
+            Name
+          </Label>
+          <ChannelInput
+            placeholder="#channel name"
+            className="form-control"
+            id="name"
+            name="name"
+            value={form.name || ''}
+            onChange={handleChange}
+            autoFocus
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="desc" className="pt-4">
+            Description
+          </Label>
+          <span className="text-muted">(Optional)</span>
+          <ChannelInput
+            id="desc"
+            className="form-control"
+            name="desc"
+            value={form.desc}
+            onChange={handleChange}
+          />
+          <span className="text-muted">What’s this channel about?</span>
+        </FormGroup>
+        <div className="w-100 d-flex justify-content-end">
+          <CreateButton
+            type="submit"
+            disabled={!size(form.name)}
+            words={size(form.name)}
+            onClick={handleSubmit}
+          >
+            Create
+          </CreateButton>
+        </div>
+      </form>
     </ModalBody>
-    <ModalFooter className="border-0">
-      <CreateButton words={form.name} onClick={toggleModal}>
-        Create
-      </CreateButton>
-    </ModalFooter>
   </ModalWrapper>
 );
 
@@ -70,4 +90,5 @@ CreateChannel.propTypes = {
   toggleModal: func,
   form: object,
   handleChange: func,
+  handleSubmit: func,
 };

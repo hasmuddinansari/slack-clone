@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Edit, ChevronDown, Plus } from 'react-feather';
+import Loader from 'react-loader-spinner';
 import { CreateChannel } from '../CreateChannel';
+import { Channel } from './Channel';
+import { useFirebase } from '../../../hooks/useFirebase';
+
 import {
   SideBarWrapper,
   ChannelInfo,
@@ -8,16 +12,59 @@ import {
   Name,
   ChannelNameWrapper,
   PlusWrapper,
+  ChannelsListWrapper,
 } from './Styled';
 import { GENERAL_CHANNELS } from './constants';
 
 export const ChannelBar = () => {
+  const { insertItem, data: channels, loading: channelLoading } = useFirebase({
+    location: 'rooms',
+  });
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => setIsOpen(open => !open);
 
+  const [form, setForm] = useState({
+    name: '',
+    desc: '',
+  });
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setForm(prevStete => ({
+      ...prevStete,
+      [name]: value,
+    }));
+  };
+
+  const resetState = () => {
+    setForm({});
+    toggleModal();
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    insertItem({
+      item: form,
+    });
+    resetState();
+  };
+
+  const handleToggleModal = () => {
+    resetState();
+  };
+
   return (
     <SideBarWrapper>
-      <CreateChannel {...{ isOpen, toggleModal }} />
+      <CreateChannel
+        {...{
+          isOpen,
+          handleChange,
+          form,
+          handleSubmit,
+          toggleModal: handleToggleModal,
+        }}
+      />
       <ChannelInfo>
         <div className="d-flex">
           <p>Channel name</p>
@@ -29,37 +76,47 @@ export const ChannelBar = () => {
           <Edit color="black" size="16" strokeWidth="2px" />
         </EditWrapper>
       </ChannelInfo>
-      {GENERAL_CHANNELS.map(({ name, icon: Icon }) => (
-        <ChannelNameWrapper className="pointer">
-          <Icon size={18} />
-          <Name>{name}</Name>
-        </ChannelNameWrapper>
-      ))}
-      <div className="pointer p-3 d-flex align-items-center justify-content-between">
-        <div className="d-flex align-items-center">
-          <ChevronDown size="14" strokeWidth="3px" />
-          <Name>Channels</Name>
+      <ChannelsListWrapper>
+        {GENERAL_CHANNELS.map(({ name, icon: Icon }) => (
+          <ChannelNameWrapper className="pointer" key={name}>
+            <Icon size={18} />
+            <Name>{name}</Name>
+          </ChannelNameWrapper>
+        ))}
+        <div className="pointer p-3 d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center">
+            <ChevronDown size="14" strokeWidth="3px" />
+            <Name>Channels</Name>
+          </div>
+          <PlusWrapper
+            className="flex-center"
+            onClick={toggleModal}
+            role="button"
+          >
+            <Plus size={16} strokeWidth="3px" />
+          </PlusWrapper>
         </div>
-        <PlusWrapper
-          className="flex-center"
-          onClick={toggleModal}
-          role="button"
-        >
-          <Plus size={16} strokeWidth="3px" />
-        </PlusWrapper>
-      </div>
 
-      {/* list of channels */}
-      <div>
-        <ChannelNameWrapper className="pointer pl-2">
-          <ChevronDown size={18} />
-          <Name>name</Name>
-        </ChannelNameWrapper>{' '}
-        <ChannelNameWrapper className="pointer">
-          <ChevronDown size={18} />
-          <Name>hello</Name>
-        </ChannelNameWrapper>
-      </div>
+        {/* list of channels */}
+        {channelLoading ? (
+          <div className="w-100 flex-center">
+            <Loader type="ThreeDots" color="white" height={80} width={50} />
+          </div>
+        ) : (
+          channels &&
+          channels.docs &&
+          channels.docs.map(doc => <Channel {...{ doc, key: doc.id }} />)
+        )}
+        <div />
+        {!channelLoading && (
+          <ChannelNameWrapper className="pointer" onClick={toggleModal}>
+            <PlusWrapper noHover className="flex-center">
+              <Plus size={14} />
+            </PlusWrapper>
+            <Name className="bold">Add Channels</Name>
+          </ChannelNameWrapper>
+        )}
+      </ChannelsListWrapper>
     </SideBarWrapper>
   );
 };
