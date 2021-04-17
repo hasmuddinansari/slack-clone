@@ -1,31 +1,37 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  html,
-  body {
-    height: 100%;
-    width: 100%;
+  * {
+    margin:0;
+    padding:0;
   }
+
 
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow:hidden;
   }
 
-  body.fontLoaded {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  .flex-center {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .self-justify-end {
+    justify-self:end;
   }
 
-  #app {
-    background-color: #fafafa;
-    min-height: 100%;
-    min-width: 100%;
+  .flex-end-center {
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
   }
 
-  p,
-  label {
-    font-family: Georgia, Times, 'Times New Roman', serif;
-    line-height: 1.5em;
+  .flex-start-center {
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
   }
+
 `;
 
 export default GlobalStyle;

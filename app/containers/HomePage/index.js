@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import { Navbar } from './components/Navbar';
 
-export default function HomePage() {
+export const HomePage = () => {
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <div>
+      <Navbar />
+    </div>
   );
-}
+};
+
+export default HomePage;
