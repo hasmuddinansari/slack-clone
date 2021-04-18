@@ -5,7 +5,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { LoginPage } from 'containers/Login';
@@ -16,6 +16,12 @@ import { ChannelProdcast } from './components/ChannelProdcast';
 
 export const SlackPage = () => {
   const [user, isLoading] = useAuthState(auth);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('login', true);
+    }
+  }, [user]);
 
   return (
     <Fragment>
