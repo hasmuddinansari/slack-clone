@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const NavbarWrapper = styled.div`
   background: ${({ theme }) => theme.slackBg};
-  height: 38px;
+  height: 38px !important;
   width: 100%;
   color: ${({ theme }) => theme.white};
 `;

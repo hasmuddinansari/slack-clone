@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { object } from 'prop-types';
-import { connect } from 'react-redux';
 import { size } from 'lodash';
 import { Hash, Star, AlertCircle, UserPlus, Send } from 'react-feather';
 import Loader from 'react-loader-spinner';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { theme } from 'context/theme';
 import { db } from 'utils';
-import { useFirebase } from '../../../hooks/useFirebase';
+import { useFirebase } from 'hooks/useFirebase';
 import { Message } from './Message';
 import {
   ChatContainer,
@@ -20,18 +19,23 @@ import {
   SendContainer,
 } from './Styled';
 
-export const ChannelProdcast = ({ match, locationState }) => {
+export const ChannelProdcast = ({ match, user }) => {
   const [chat, setChat] = useState('');
   const chatRef = useRef(null);
   const scrollRef = useRef(null);
   const channelID = match.params.channelId;
 
   const [messagesList, loadingMessages] = useCollection(
-    db
-      .collection('rooms')
-      .doc(channelID)
-      .collection('messages')
-      .orderBy('timestamp', 'asc'),
+    channelID &&
+      db
+        .collection('rooms')
+        .doc(channelID)
+        .collection('messages')
+        .orderBy('timestamp', 'asc'),
+  );
+
+  const [channelData] = useDocument(
+    channelID && db.collection('rooms').doc(channelID),
   );
 
   const { insertMessage } = useFirebase({
@@ -41,9 +45,6 @@ export const ChannelProdcast = ({ match, locationState }) => {
   });
 
   const sizeOfMessage = size(messagesList && messagesList.docs);
-
-  const { channelName } = locationState;
-  const channelDescription = locationState.description;
 
   const onChatChange = () => {
     setChat(chatRef.current.value);
@@ -55,12 +56,11 @@ export const ChannelProdcast = ({ match, locationState }) => {
       insertMessage({
         message: {
           message: chat,
-          userImage: 'https://randomuser.me/api/portraits/men/72.jpg',
-          userName: 'Ayaan Ansari',
+          userImage: user.photoURL,
+          userName: user.displayName,
         },
       });
     }
-    scrollToDown();
     chatRef.current.focus();
     setChat('');
   };
@@ -92,12 +92,14 @@ export const ChannelProdcast = ({ match, locationState }) => {
         <div>
           <h6>
             <Hash size={15} />
-            {channelName}
+            {channelData && channelData.data().name}
             <span className="star pointer">
               <Star size={14} strokeWidth="1px" />
             </span>
           </h6>
-          <div className="desc text-muted">{channelDescription}</div>
+          <div className="desc text-muted">
+            {channelData && channelData.data().desc}
+          </div>
         </div>
         <div className="pointer w-25 d-flex justify-content-end">
           <div className="d-flex justify-content-between  w-25">
@@ -119,14 +121,16 @@ export const ChannelProdcast = ({ match, locationState }) => {
           </div>
         ) : (
           Boolean(sizeOfMessage) &&
-          messagesList.docs.map(doc => <Message {...{ ...doc.data() }} />)
+          messagesList.docs.map(doc => (
+            <Message {...{ ...doc.data(), key: doc.id }} />
+          ))
         )}
         <div ref={scrollRef} />
       </ChatListContainer>
       <ChatInputContainer onSubmit={onChatSubmit}>
         <ChatInputWrapper>
           <ChatInput
-            placeholder={`Message #${channelName}`}
+            placeholder={`Message #${channelData && channelData.data().name}`}
             value={chat}
             ref={chatRef}
             onChange={onChatChange}
@@ -147,16 +151,12 @@ export const ChannelProdcast = ({ match, locationState }) => {
 };
 
 ChannelProdcast.defaultProps = {
-  locationState: {},
+  user: {},
 };
 
 ChannelProdcast.propTypes = {
-  locationState: object,
   match: object,
+  user: object,
 };
 
-const mapStateToProps = state => ({
-  locationState: state.router.location.state,
-});
-
-export default connect(mapStateToProps)(ChannelProdcast);
+export default ChannelProdcast;

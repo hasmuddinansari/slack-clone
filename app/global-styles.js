@@ -7,8 +7,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Oxygen', sans-serif;
   }
 
-
-  body {
+  body{
     overflow:hidden;
   }
 

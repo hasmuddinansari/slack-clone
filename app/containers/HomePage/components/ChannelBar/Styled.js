@@ -2,11 +2,13 @@ import styled, { css } from 'styled-components';
 
 export const SideBarWrapper = styled.aside`
   width: 260px;
+  height: calc(100vh - 38px);
   background: ${({ theme }) => theme.slackSecondary};
   color: ${({ theme }) => theme.white};
 `;
 
 export const ChannelInfo = styled.main`
+  overflow: hidden;
   height: 64px;
   padding-left: 16px;
   padding-right: 15px;
@@ -76,7 +78,7 @@ export const PlusWrapper = styled.div`
 `;
 
 export const ChannelsListWrapper = styled.div`
-  height: 87vh;
+  height: 82vh;
   overflow: auto;
   padding-bottom: 40px;
 

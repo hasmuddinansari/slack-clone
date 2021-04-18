@@ -1,9 +1,9 @@
 import { FormGroup } from 'reactstrap';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ChatContainer = styled.div`
-  height: 94vh;
-  width: 78.8%;
+  height: 70vh;
+  width: calc(100vw - 260px);
 `;
 
 export const ChannelHeader = styled.div`
@@ -24,9 +24,8 @@ export const ChannelHeader = styled.div`
 `;
 
 export const ChatInputContainer = styled.form`
-  width: 80%;
+  width: calc(100vw - 260px);
   position: absolute;
-  height: 90px;
   background: ${({ theme }) => theme.white};
   display: flex;
   justify-content: center;
@@ -59,7 +58,6 @@ export const ChatInput = styled.input`
 
 export const TextTool = styled.div`
   height: 50%;
-
   color: ${({ theme }) => theme.gray_400};
   position: relative;
   &::before {
@@ -88,7 +86,7 @@ export const SendContainer = styled.div`
 `;
 
 export const ChatListContainer = styled.div`
-  height: 68vh;
+  height: calc(100vh - 200px);
   padding: 15px 10px;
   overflow: auto;
   ::-webkit-scrollbar {
@@ -107,13 +105,21 @@ export const ChatListContainer = styled.div`
 
 export const UserChatWrapper = styled.div`
   padding: 0px 10px;
-  margin-top: 25px;
+  &:not(:nth-child(1)) {
+    margin-top: 25px;
+  }
 `;
 
 export const UserImage = styled.img`
   height: 36px;
   width: 36px;
   border-radius: 4px;
+  ${({ isSmall }) =>
+    isSmall &&
+    css`
+      height: 30px;
+      width: 30px;
+    `}
 `;
 
 export const UserNameWrapper = styled.div`

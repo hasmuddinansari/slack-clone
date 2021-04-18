@@ -3,9 +3,9 @@ import { Edit, ChevronDown, Plus } from 'react-feather';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Loader from 'react-loader-spinner';
 import { db } from 'utils';
+import { useFirebase } from 'hooks/useFirebase';
 import { CreateChannel } from '../CreateChannel';
 import Channel from './Channel';
-import { useFirebase } from '../../../hooks/useFirebase';
 
 import {
   SideBarWrapper,
