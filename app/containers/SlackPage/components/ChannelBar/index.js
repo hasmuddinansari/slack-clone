@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Edit, ChevronDown, Plus } from 'react-feather';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Loader from 'react-loader-spinner';
 import { db } from 'utils';
+import history from 'utils/history';
 import { useFirebase } from 'hooks/useFirebase';
 import { CreateChannel } from '../CreateChannel';
 import Channel from './Channel';
@@ -59,6 +60,20 @@ export const ChannelBar = () => {
   const handleToggleModal = () => {
     resetState();
   };
+
+  useEffect(() => {
+    if (
+      !channelLoading &&
+      channels &&
+      channels.docs &&
+      history.location.pathname === '/'
+    ) {
+      const [firstDefault] = channels.docs;
+      if (firstDefault.id) {
+        history.push(`/${firstDefault.id}`);
+      }
+    }
+  }, [channelLoading]);
 
   return (
     <SideBarWrapper>

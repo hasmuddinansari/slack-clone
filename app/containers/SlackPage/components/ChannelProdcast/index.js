@@ -92,13 +92,13 @@ export const ChannelProdcast = ({ match, user }) => {
         <div>
           <h6>
             <Hash size={15} />
-            {channelData && channelData.data().name}
+            {channelData && channelData.data() && channelData.data().name}
             <span className="star pointer">
               <Star size={14} strokeWidth="1px" />
             </span>
           </h6>
           <div className="desc text-muted">
-            {channelData && channelData.data().desc}
+            {channelData && channelData.data() && channelData.data().desc}
           </div>
         </div>
         <div className="pointer w-25 d-flex justify-content-end">
@@ -130,7 +130,9 @@ export const ChannelProdcast = ({ match, user }) => {
       <ChatInputContainer onSubmit={onChatSubmit}>
         <ChatInputWrapper>
           <ChatInput
-            placeholder={`Message #${channelData && channelData.data().name}`}
+            placeholder={`Message #${channelData &&
+              channelData.data() &&
+              channelData.data().name}`}
             value={chat}
             ref={chatRef}
             onChange={onChatChange}
