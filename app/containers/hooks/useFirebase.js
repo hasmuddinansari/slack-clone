@@ -1,19 +1,23 @@
 import { db } from 'utils';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import firebase from 'firebase';
 
-export const useFirebase = ({ location }) => {
-  const [data, loading, error] = useCollection(
-    db.collection(location).orderBy('name'),
-  );
-
+export const useFirebase = ({ location, subLocation, subLocationId }) => {
   const insertItem = ({ item }) => {
     db.collection(location).add(item);
   };
 
+  const insertMessage = ({ message }) => {
+    db.collection(location)
+      .doc(subLocationId)
+      .collection(subLocation)
+      .add({
+        ...message,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+  };
+
   return {
     insertItem,
-    data,
-    loading,
-    error,
+    insertMessage,
   };
 };

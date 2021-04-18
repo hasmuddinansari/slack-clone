@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Edit, ChevronDown, Plus } from 'react-feather';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import Loader from 'react-loader-spinner';
+import { db } from 'utils';
 import { CreateChannel } from '../CreateChannel';
-import { Channel } from './Channel';
+import Channel from './Channel';
 import { useFirebase } from '../../../hooks/useFirebase';
 
 import {
@@ -17,9 +19,13 @@ import {
 import { GENERAL_CHANNELS } from './constants';
 
 export const ChannelBar = () => {
-  const { insertItem, data: channels, loading: channelLoading } = useFirebase({
+  const { insertItem } = useFirebase({
     location: 'rooms',
   });
+
+  const [channels, channelLoading] = useCollection(
+    db.collection('rooms').orderBy('name'),
+  );
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => setIsOpen(open => !open);

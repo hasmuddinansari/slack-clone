@@ -7,22 +7,17 @@
  *
  */
 
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Fragment } from 'react';
 
 import HomePage from 'containers/HomePage/Loadable';
-import { ChannelProdcast } from 'containers/HomePage/components/ChannelProdcast';
 
 import GlobalStyle from '../../global-styles';
 
 export default function App() {
   return (
-    <div>
+    <Fragment>
       <HomePage />
-      <Switch>
-        <Route exact path="/:channelId" component={ChannelProdcast} />
-      </Switch>
       <GlobalStyle />
-    </div>
+    </Fragment>
   );
 }

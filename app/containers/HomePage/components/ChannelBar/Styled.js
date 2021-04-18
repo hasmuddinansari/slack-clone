@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const SideBarWrapper = styled.aside`
   width: 260px;
-  min-height: 100vh;
   background: ${({ theme }) => theme.slackSecondary};
   color: ${({ theme }) => theme.white};
 `;
@@ -48,9 +47,12 @@ export const ChannelNameWrapper = styled.div`
   display: flex;
   align-items: center;
   padding-left: ${({ hasSpace }) => hasSpace && '20px'};
-  color: ${({ theme }) => theme.lightWhite2};
+  color: ${({ theme, isActive }) =>
+    isActive ? `${theme.white}` : `${theme.lightWhite2}`};
+  background: ${({ theme, isActive }) =>
+    isActive && `${theme.activeChannelBg}`};
   &:hover {
-    background: ${({ theme }) => theme.slackBg};
+    background: ${({ theme, isActive }) => !isActive && `${theme.slackBg}`};
   }
 `;
 
@@ -74,12 +76,12 @@ export const PlusWrapper = styled.div`
 `;
 
 export const ChannelsListWrapper = styled.div`
-  height: 83vh;
+  height: 87vh;
   overflow: auto;
   padding-bottom: 40px;
 
   ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -89,6 +91,6 @@ export const ChannelsListWrapper = styled.div`
 
   ::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    -webkit-box-shadow: inset 0 0 6px ${({ theme }) => theme.sideThumbColor};
+    background: ${({ theme }) => theme.gray_300};
   }
 `;
