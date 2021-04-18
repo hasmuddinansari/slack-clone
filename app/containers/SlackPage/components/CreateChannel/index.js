@@ -49,7 +49,6 @@ export const CreateChannel = ({
             name="name"
             value={form.name || ''}
             onChange={handleChange}
-            autoFocus
           />
         </FormGroup>
         <FormGroup>

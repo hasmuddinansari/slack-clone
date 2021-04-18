@@ -1,8 +1,8 @@
 import React from 'react';
 import { object } from 'prop-types';
 import { Clock, HelpCircle, User } from 'react-feather';
+import { UserImage } from 'containers/SlackPage/components/ChannelProdcast/Styled';
 import { SearchWrapper, UserProfile, NavbarWrapper } from './Styled';
-import { UserImage } from '../ChannelProdcast/Styled';
 
 export const Navbar = ({ user }) => (
   <NavbarWrapper className="row flex-center">

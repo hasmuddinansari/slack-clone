@@ -10,11 +10,11 @@ import { Switch, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { LoginPage } from 'containers/Login';
 import { auth } from 'utils';
-import { Navbar } from './components/Navbar';
+import { Navbar } from '../Navbar';
 import { ChannelBar } from './components/ChannelBar';
 import { ChannelProdcast } from './components/ChannelProdcast';
 
-export const HomePage = () => {
+export const SlackPage = () => {
   const [user, isLoading] = useAuthState(auth);
 
   return (
@@ -40,4 +40,4 @@ export const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default SlackPage;

@@ -9,14 +9,14 @@
 
 import React, { Fragment } from 'react';
 
-import HomePage from 'containers/HomePage/Loadable';
+import SlackPage from 'containers/SlackPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
 export default function App() {
   return (
     <Fragment>
-      <HomePage />
+      <SlackPage />
       <GlobalStyle />
     </Fragment>
   );

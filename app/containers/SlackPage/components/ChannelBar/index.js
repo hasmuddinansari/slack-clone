@@ -73,7 +73,7 @@ export const ChannelBar = () => {
       />
       <ChannelInfo>
         <div className="d-flex">
-          <p>Channel name</p>
+          <p>Global Page</p>
           <div>
             <ChevronDown size="14" strokeWidth="3px" />
           </div>
