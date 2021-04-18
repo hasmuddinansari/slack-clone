@@ -2,4 +2,4 @@
 
 demo-link
 
-https://clone-slack-6dcab.web.app/C8TCWBZEuOsRmDxMfmHe
+https://clone-slack-6dcab.web.app
